@@ -1,5 +1,5 @@
 function getSyncTime() {
-    return new Promise((resolve,reject) =>{
+    return new Promise((resolve,reject) => {
         try {
             let startTime = new Date().getTime();
             setTimeout( () => {

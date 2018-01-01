@@ -1,7 +1,14 @@
-const Koa = require('koa');
+/*const Koa = require('koa');
 const Router = require('koa-router');
+i*/
+
+import Koa from 'koa';
+import views from 'koa-views';
+import path from 'path';
 
 const app = new Koa();
+
+
 let router = new Router();
 
 let api = new Router();
@@ -32,3 +39,5 @@ app
 
 app.listen(3001)
 console.log('[demo] start-quick is starting at port 3001')
+
+module.exports = app;
