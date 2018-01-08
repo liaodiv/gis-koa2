@@ -3,5 +3,14 @@
  */
 import React from 'react';
 import  ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+import {createStore,applyMiddleware} from 'redux';
+import ReduxPromise from 'redux-promise';
 
-ReactDOM.render(<div>hello koa</div>,document.getElementById('root'))
+const App=()=>{
+	return(
+		<div> this is a noe</div>
+	)
+}
+
+ReactDOM.render(<div>hello koa<App/></div>,document.getElementById('root'))
