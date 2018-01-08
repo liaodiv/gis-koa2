@@ -28,7 +28,7 @@ app
     .use(router.routes())
     .use(router.allowedMethods());
 
-//http://nekomiao.me/2017/05/23/koa2-react-webpack-deployment/
+//http://nekomiao.me/2017/05/23/koa2-react-webpack-deployment/g
 
 app.listen(3001)
 console.log('[demo] start-quick is starting at port 3001')
