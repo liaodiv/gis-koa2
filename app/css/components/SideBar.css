@@ -1,0 +1,26 @@
+.sidebar {
+    background-color: white;
+}
+/*.sidebar div{
+    border: none !important;
+    border-radius: 0 !important;
+}*/
+.sidebar div.ant-collapse-header {
+    font-size: 14px;
+    font-family: "Microsoft YaHei UI";
+    border: none;
+    height: 46px;
+    line-height: 30px !important;
+    padding-left: 45px !important;
+}
+.sidebar .ant-collapse-content-box {
+    font-size: 14px;
+    font-family: "Microsoft YaHei UI";
+}
+.sidebar i.arrow {
+    font-size: 14px !important;
+    line-height: 46px !important;
+}
+.sidebar {
+    overflow: auto;
+}

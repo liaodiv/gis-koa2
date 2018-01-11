@@ -30,7 +30,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['env', 'react'],
+                        presets: ['env', 'react','babel-preset-env'],
 						plugins:  [
 							["import", [{"libraryName": "antd", "style": true}]],
 							["transform-class-properties", { "spec": true }]
@@ -60,9 +60,9 @@ module.exports = {
 					{loader:"css-loader"},
 					{
 						loader: "less-loader",
-						options: {
+					/*	options: {
 							modifyVars: themeVariables    //加载自定义主题
-						}
+						}*/
 					}
 				]
 			}
