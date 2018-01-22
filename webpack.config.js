@@ -30,7 +30,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['env', 'react','babel-preset-env'],
+                        presets: ["env", "react","babel-preset-env","stage-2"],
 						plugins:  [
 							["import", [{"libraryName": "antd", "style": true}]],
 							["transform-class-properties", { "spec": true }]
