@@ -31,17 +31,19 @@ const App = (props) =>(
                             <Link to="/home/layers">
                             <Icon type="user" />
                             </Link>
-                            <span>nav 1</span>
+                            <span>图层管理</span>
                         </Menu.Item>
                         <Menu.Item key="2">
-                            <Link to="/home/app">
+                            <Link to="/home/edit">
                             <Icon type="video-camera" />
                             </Link>
-                            <span>nav 2</span>
+                            <span>数据编辑</span>
                         </Menu.Item>
                         <Menu.Item key="3">
-                            <Icon type="/#/home/upload" />
-                            <span>nav 3</span>
+							<Link to="/home/query">
+                            <Icon type="video-camera" />
+							</Link>
+							<span>查询分析</span>
                         </Menu.Item>
                     </Menu>
                 </Sider>
