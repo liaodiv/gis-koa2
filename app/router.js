@@ -1,13 +1,17 @@
-import React from 'react'
-import {Switch,Route,routerRedux} from 'dva/router'
-import {LocaleProvider} from 'antd'
-import zhCN from 'antd/lib/locale-provider/zh_CN'
+import React from 'react';
+import {Switch,Route,routerRedux} from 'dva/router';
+import {LocaleProvider} from 'antd';
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+import {Link} from 'react-router-dom'
+import App from './app';
 
-const { ConnectedRouter} = routerRedux
+const { ConnectedRouter} = routerRedux;
 
 const Login = () => {
 	return (
-		<div>Login in </div>
+		<div>Login in
+			<Link to={"/home"}>主页</Link>
+		</div>
 	)
 }
 
@@ -23,7 +27,7 @@ export default function Routers({history}) {
 			<ConnectedRouter history={history}>
 				<Switch>
 					<Route exact path={'/'} component={Login}/>
-					<Route path={'/home'} component={Sider}/>
+					<Route  path={'/home'} component={App}/>
 				</Switch>
 			</ConnectedRouter>
 		</LocaleProvider>

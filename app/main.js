@@ -22,7 +22,7 @@ ReactDOM.render(
 import {message} from 'antd'
 import dva from 'dva'
 import createLoading from 'dva-loading'
-import createHistory from 'history/createHashHistory'
+import {createHashHistory} from 'history'
 import 'babel-polyfill'
 
 import appmodel from './models/app'
@@ -32,7 +32,7 @@ const app = dva({
 	...createLoading({
 		effects: true
 	}),
-	history:createHistory(),
+	history:createHashHistory(),
 	onError (error){
 		message.error(error.message)
 	}
