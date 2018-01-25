@@ -2,6 +2,8 @@ const Sequelize = require('sequelize');
 
 const sequelzie =new Sequelize('postgres://postgres:123456@120.25.252.245:5432/myspdb');
 
+const Util = require('./geojson_util');
+
 sequelzie
 	.authenticate()
 	.then( ()=> {
@@ -42,6 +44,23 @@ function Togeojson(result) {
 	return feature;
 }
 
+function FeaturesToCollection(dataList) {
+	const geoCollection = {
+		type:"FeatureCollection",
+		crs: {
+			type: 'name',
+			properties: {
+				'name': 'EPSG:4326'
+			}
+		},
+		features:[]
+	};
+	dataList.forEach( datai => {
+		geoCollection.features.push(datai)
+	})
+	return geoCollection;
+}
+
 /*TestPoint  //插入数据
 	.create({
 		name:'node_test',
@@ -80,10 +99,38 @@ TestPoint
 	.catch((err) => {
 		console.log("更新失败",err)
 	})*/
-TestPoint
+/*TestPoint  //查询所有
 	.findAll()
 	.then( results => {
 		results.map( (result) => {
-			console.log(Togeojson(result))
+			console.log(result);
+			//console.log(Togeojson(result))
 		})
-	} )
+	} )*/
+
+const queryPoint = () => {
+	return new Promise((resolve,reject) => {
+		TestPoint
+			.findAll()
+			.then( results => {
+				const Arr = [];
+				results.map( result => {
+					Arr.push(Util.Togeojson(result));
+				})
+				resolve(Util.FeaturesToCollection(Arr));
+			})
+			.catch( err => {
+				reject(err)
+			})
+	})
+}
+
+async function  getData() {
+	let  datalist = await queryPoint();
+	console.log(datalist);
+}
+
+
+
+
+export {sequelzie,Sequelize}

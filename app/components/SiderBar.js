@@ -3,7 +3,7 @@ import { Collapse, Icon,Layout} from 'antd';
 import { Route, Switch } from 'react-router-dom';
 import '../css/components/SideBar.css';
 
-import LayerNav from './LayerNav'
+import LayerNav from '../containers/LayerManager';
 import LayerManger from './LayerManager';
 import LayerList from './LayerList';
 import LayerSelect from './layerSelect';

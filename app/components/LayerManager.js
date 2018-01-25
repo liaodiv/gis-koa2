@@ -1,58 +1,86 @@
 //通过seleact查看现有的图层，添加成功后显示到先下面
 
-import React from 'react';
-import {Form, Select , Button  } from 'antd';
-import { FetchGet } from '../actions/index';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React,{Component} from 'react';
+import {Form, Select, Button} from 'antd';
+
 
 const FormItem = Form.Item;
-const  Option = Select.Option;
+const Option = Select.Option;
 
-class layerM extends React.Component{
-    constructor(props){
-        super(props);
 
-    }
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-                this.props.FetchGet(values);
-            }
-        });
-    };
-    render(){
-        const { getFieldDecorator } = this.props.form;
-
-        return (
-        <Form layout="inline" onSubmit = { this.handleSubmit } >
-            <Form.Item>
-                {getFieldDecorator('select',{
-                  rules:[
-                      {required:true,message:'选择图层'}
-                  ]
-                })(
-                    <Select  style={{width: 200}}>
-                        <Option value="task">task1</Option>
-                        <Option value="task1">task1</Option>
-                        <Option value="task2">task3</Option>
-                    </Select>
-                    )
-                }
-            </Form.Item>
-            <Form.Item>
-                <Button type="primary" htmlType="submit">添加图层</Button>
-            </Form.Item>
-
-        </Form>
-        )
-    }
+function SelectO(props) {
+	if(props.config === null){
+		return( <Select style={{width: 200}}>
+		</Select>)
+	}else {
+		return(
+			<Select style={{width: 200}}>
+				{
+					props.config.map(data => {
+						return (
+							<Option value={data.name} key={data.name}>{data.name}</Option>
+						)
+					})
+				}
+				{/*<Option value="task">task1</Option>
+							<Option value="task1">task1</Option>
+							<Option value="task2">task3</Option>*/}
+			</Select>
+		)
+	}
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ FetchGet },dispatch);
+class LayerForm extends Component {
+	componentDidMount() {
+		// To disabled submit button at the beginning.
+		this.props.form.validateFields();
+	}
+	handleSubmit = (e) => {
+		e.preventDefault();
+		this.props.getdata();
+	/*	props.form.validateFields((err, values) => {
+			if (!err) {
+				console.log('Received values of form: ', values);
+				props.getData();
+			}
+		});*/
+	};
+	render() {
+		const {getFieldDecorator} = this.props.form;
+		const {config} = this.props;
+		return (
+			<Form layout="inline" onSubmit={this.handleSubmit.bind(this)}>
+				<Form.Item>
+					{getFieldDecorator('select', {
+						rules: [
+							{required: true, message: '选择图层'}
+						]
+					})(
+						<SelectO config={config}/>
+					)
+					}
+				</Form.Item>
+				<Form.Item>
+					<Button type="primary" htmlType="submit">添加图层</Button>
+				</Form.Item>
+
+			</Form>
+		)
+	}
+
 }
 
-export default connect(null,mapDispatchToProps)(Form.create()(layerM));
+/*const Test = (props) => {
+	return(
+	<Form layout="inline" onSubmit={()=>{}}>
+
+		<Form.Item>
+			<Button type="primary" htmlType="submit">添加图层</Button>
+		</Form.Item>
+
+	</Form>
+	)
+}*/
+
+
+export default Form.create()(LayerForm);

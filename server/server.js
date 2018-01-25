@@ -2,14 +2,29 @@ import Koa from 'koa';
 import views from 'koa-views';
 import path from 'path';
 import Router from 'koa-router';
+import koaStatic from 'koa-static';
+import bodyParser from 'koa-bodyparser';
+import koaLogger from 'koa-logger';
+
+import routers from './routers/index';
 
 const app = new Koa();
 
-app.use(require('koa-static')(path.join(__dirname, '../build')))
+//配置控制台日志中间件
+app.use(koaLogger());
+//配置ctx.body 解析中间件
+app.use(bodyParser());
+
+app.use(koaStatic(path.join(__dirname, '../build')));
+//app.use(require('koa-static')(path.join(__dirname, '../build')))
 app.use(views(path.join(__dirname, '../views'), {
 	extension: 'html'
 }));
-let router = new Router();
+
+
+//初始化路由中间件
+app.use(routers.routes()).use(routers.allowedMethods());
+/*let router = new Router();
 
 let api = new Router();
 
@@ -33,7 +48,7 @@ router
 
 app
 	.use(router.routes())
-	.use(router.allowedMethods());
+	.use(router.allowedMethods());*/
 
 //http://nekomiao.me/2017/05/23/koa2-react-webpack-deployment/g
 

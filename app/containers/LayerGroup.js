@@ -16,10 +16,10 @@ class LayerGroup{
             ]
         });
     }
-    addLayer(result){
-        let features = new Geojson().readFeatures(result.data.geom, {featureProjection: 'EPSG:4326'});
+    addLayer(geodata,name){
+        let features = new Geojson().readFeatures(geodata, {featureProjection: 'EPSG:4326'});
         const layer = new VectorL({
-            title:result.data.name,
+            title:name,
             visible:true,
             source: new VectorS({
                 features: features

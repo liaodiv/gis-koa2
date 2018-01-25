@@ -1,6 +1,5 @@
 import  React ,{ Component } from 'react';
 import { List , Switch } from 'antd';
-import {connect} from 'react-redux';
 import LayerG from '../containers/LayerGroup';
 
 const  data = ['layer1','layer2','layer3'];
@@ -8,9 +7,12 @@ const  data = ['layer1','layer2','layer3'];
 class LayerList extends  Component{
     constructor(props){
         super(props);
-        this.state={
+       /* this.state={
             data:[]
-        };
+        };*/
+
+    }
+    getdata = (e) => {
 
     }
     render(){
@@ -31,9 +33,5 @@ class LayerList extends  Component{
     }
 }
 
-function mapStateToProps(state) {
-    console.log('获取state',state);
 
-    return {data:state.layers}; //=== {weather:weather}
-}
-export default connect(mapStateToProps)(LayerList);
+export default LayerList;
