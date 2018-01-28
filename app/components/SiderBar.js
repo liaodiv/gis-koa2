@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import '../css/components/SideBar.css';
 
 import LayerNav from '../containers/LayerManager';
+import LayerEdit from '../containers/LayerEdit';
 import LayerManger from './LayerManager';
 import LayerList from './LayerList';
 import LayerSelect from './layerSelect';
@@ -25,7 +26,7 @@ class SideBar extends Component {
                 <Switch>
                     <Route path={`${this.props.match.url}/layers`} component={LayerNav}/>
 					<Route path={`${this.props.match.url}/query`}  component={TestContent}/>
-					<Route path={`${this.props.match.url}/edit`}  component={TestContent}/>
+					<Route path={`${this.props.match.url}/edit`}  component={LayerEdit}/>
                     <Route path={`${this.props.match.url}/`}  component={TestContent}/>
 
                 </Switch>

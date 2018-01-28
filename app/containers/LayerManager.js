@@ -35,7 +35,7 @@ class LayerCone extends Component{
 		const {layers,config} = this.props.app;
 		return(
 			<div>
-				<LayerSelect getdata={this.getData} config={config}/>
+				<LayerSelect getdata={this.getData} config={config} title={'添加图层'}/>
 				<br/>
 				<LayerList data={layers}/>
 			</div>

@@ -14,7 +14,7 @@ function SelectO(props) {
 		</Select>)
 	}else {
 		return(
-			<Select style={{width: 200}}>
+			<Select style={{width: 200}} onChange={props.onChange}>
 				{
 					props.config.map(data => {
 						return (
@@ -31,23 +31,43 @@ function SelectO(props) {
 }
 
 class LayerForm extends Component {
+	constructor(props){
+		super(props);
+		this.state ={
+			select:''
+		}
+	}
 	componentDidMount() {
 		// To disabled submit button at the beginning.
-		this.props.form.validateFields();
+		//this.props.form.validateFields();
 	}
 	handleSubmit = (e) => {
 		e.preventDefault();
-		this.props.getdata();
-	/*	props.form.validateFields((err, values) => {
+		console.log('提交');
+		const getdata = this.props.getdata;
+		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				console.log('Received values of form: ', values);
-				props.getData();
+				getdata(values);
 			}
-		});*/
+		});
 	};
+	handleCurrencyChange = (currency) => {
+		if (!('value' in this.props)) {
+			this.setState({ currency });
+		}
+		this.triggerChange({ currency });
+	}
+	triggerChange = (changedValue) => {
+		// Should provide an event to pass value to Form.
+		const onChange = this.props.onChange;
+		if (onChange) {
+			onChange(Object.assign({}, this.state, changedValue));
+		}
+	}
 	render() {
 		const {getFieldDecorator} = this.props.form;
-		const {config} = this.props;
+		const {config,title} = this.props;
 		return (
 			<Form layout="inline" onSubmit={this.handleSubmit.bind(this)}>
 				<Form.Item>
@@ -56,12 +76,12 @@ class LayerForm extends Component {
 							{required: true, message: '选择图层'}
 						]
 					})(
-						<SelectO config={config}/>
+						<SelectO config={config} onChange={this.handleCurrencyChange}/>
 					)
 					}
 				</Form.Item>
 				<Form.Item>
-					<Button type="primary" htmlType="submit">添加图层</Button>
+					<Button type="primary" htmlType="submit">{title}</Button>
 				</Form.Item>
 
 			</Form>
