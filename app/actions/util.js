@@ -13,11 +13,13 @@ export function sourceToTable(source) {
 	const data = source
 		.getFeatures()
 		.map( (feature)=>{
-			return {
+			let obj =  {
 				uid:feature.ol_uid,
 				...feature.getProperties(),
-
-			}
+			};
+			delete obj.geometry;
+			console.log(obj);
+			return obj;
 		})
 	return data;
 	//console.log('sourcedata',data)
