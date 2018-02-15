@@ -24,10 +24,10 @@ class SideBar extends Component {
         return (
             <Content style={{margin:'4px 4px'}}>
                 <Switch>
-                    <Route path={`${this.props.match.url}/layers`} component={LayerNav}/>
+                    <Route exact path={`${this.props.match.url}/layers`} component={LayerNav}/>
 					<Route path={`${this.props.match.url}/query`}  component={TestContent}/>
 					<Route path={`${this.props.match.url}/edit`}  component={LayerEdit}/>
-                    <Route path={`${this.props.match.url}/`}  component={TestContent}/>
+                    <Route path={`${this.props.match.url}/`}  component={LayerNav}/>
 
                 </Switch>
             </Content>

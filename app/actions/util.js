@@ -7,3 +7,19 @@ export function featureTotable(features) {
 	});
 	return dataList;
 }
+
+export function sourceToTable(source) {
+	console.log(source.getFeatures())
+	const data = source
+		.getFeatures()
+		.map( (feature)=>{
+			return {
+				uid:feature.ol_uid,
+				...feature.getProperties(),
+
+			}
+		})
+	return data;
+	//console.log('sourcedata',data)
+
+}

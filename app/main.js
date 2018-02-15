@@ -26,6 +26,7 @@ import {createHashHistory} from 'history'
 import 'babel-polyfill'
 
 import appmodel from './models/app'
+import login from './models/login'
 import router from './router'
 
 const app = dva({
@@ -40,6 +41,7 @@ const app = dva({
 
 app.use(createLoading())
 
+app.model(login)
 app.model(appmodel)
 
 app.router(router)

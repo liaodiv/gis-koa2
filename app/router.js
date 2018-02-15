@@ -4,6 +4,7 @@ import {LocaleProvider} from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import {Link} from 'react-router-dom'
 import App from './app';
+import LoginCom from './containers/Login';
 
 const { ConnectedRouter} = routerRedux;
 
@@ -26,7 +27,7 @@ export default function Routers({history}) {
 		<LocaleProvider locale={zhCN}>
 			<ConnectedRouter history={history}>
 				<Switch>
-					<Route exact path={'/'} component={Login}/>
+					<Route exact path={'/'} component={LoginCom}/>
 					<Route  path={'/home'} component={App}/>
 				</Switch>
 			</ConnectedRouter>

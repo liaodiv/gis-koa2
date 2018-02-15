@@ -1,8 +1,11 @@
 import Draw from 'ol/interaction/draw';
+import Select from 'ol/interaction/select';
 
 export default {
 	interaction : null,
 	startDraw:function (layer) {
+		console.log(layer.getProperties());
+		this.stop();
 		this.interaction = new Draw({
 			source:layer.getSource(),
 			type:'Point'
@@ -14,6 +17,13 @@ export default {
 			window.map.removeInteraction(this.interaction);
 		}
 		this.interaction = null;
+	},
+	startSelect:function (layer) {
+		this.stop();
+		this.interaction = new Select({
+			layers:[layer]
+		});
+		window.map.addInteraction(this.interaction);
 	}
 
 }

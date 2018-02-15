@@ -1,6 +1,8 @@
 import * as Service from '../utils/service';
 import LayerGroup from '../containers/LayerGroup';
 import Operate from '../actions/editTool';
+import {featureTotable,sourceToTable} from '../actions/util';
+
 
 /// TODO 完成单个图层的增删改
 export default {
@@ -9,7 +11,8 @@ export default {
 		OK:false,
 		layers:[],
 		config:null,
-		selectLayer:''
+		selectLayer:null,
+		dataList:[]
 	},
 	effects:{
 		*getPoint({payload},{call,put}){
@@ -54,14 +57,23 @@ export default {
 			return {...state,selectLayer:payload}
 		},
 		startEdit(state,{payload}){
-			console.log('开始绘图');
 			Operate.startDraw(LayerGroup.getLayer(state.selectLayer))
 			return {...state}
 		},
+		startSelect(state,{payload}){
+			Operate.startSelect(LayerGroup.getLayer(state.selectLayer))
+			return {...state}
+		},
 		OperateEnd(state,{payload}){
-			console.log('结束绘图');
 			Operate.stop();
 			return {...state}
+		},
+		setList(state,{payload}){
+			console.log(sourceToTable(LayerGroup.getSource(state.selectLayer)));
+			const geodata = state.layers.find((value)=>{
+				return value.name === state.selectLayer
+			})
+			return {...state,dataList:featureTotable(geodata.data.features)}
 		}
 	}
 }

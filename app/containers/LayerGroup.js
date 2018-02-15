@@ -61,6 +61,9 @@ class LayerGroup{
         )
         return rlayer;
     }
+    getSource(name){
+        return this.getLayer(name).getSource();
+    }
 
 
 }

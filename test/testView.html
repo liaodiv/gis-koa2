@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Openlayers</title>
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.4/css/ol.css" type="text/css">
+
+    <style>
+        body{
+            width: 100%;
+            height: 100%;
+        }
+        .map {
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="map" class="map"></div>
+    <script src="./ol-debug.js"></script>
+    <script src="geoObject.js"></script>
+    <script>
+		var geojsonObject = window.geojsonObject;
+
+		var vectorLines = new ol.source.Vector({
+            features:(new ol.format.GeoJSON()).readFeaturesFromObject(geojsonObject)
+        })
+        var map = new ol.Map({
+            layers:[
+				new ol.layer.Tile({
+					source: new ol.source.OSM()
+				}),
+                new ol.layer.Vector({
+                    source:vectorLines
+                })
+            ],
+            target:'map',
+            view:new ol.View({
+                center:[0,0],
+                zoom:2
+            })
+        })
+
+        var data =vectorLines
+            .getFeatures()
+            .map(function (feature) {
+                return {
+					data:feature.getKeys()
+			    }
+			});
+		console.log(data);
+
+
+    </script>
+</body>
+</html>
