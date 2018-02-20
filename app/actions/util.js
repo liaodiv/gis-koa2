@@ -1,25 +1,28 @@
 export function featureTotable(features) {
 	const dataList = features.map(value => {
-		return {
-			...value.properties,geometry:value.geometry
-		}
+		let obj ={
+            ...value.properties
+		};
+		delete obj.geometry;
+		return obj;
 
 	});
 	return dataList;
 }
 
 export function sourceToTable(source) {
-	console.log(source.getFeatures())
 	const data = source
 		.getFeatures()
 		.map( (feature)=>{
-			return {
-				uid:feature.ol_uid,
-				...feature.getProperties(),
-
+			let obj = {
+				uid:feature.getId(),
+				...feature.getProperties()
 			}
+			delete obj.geometry;
+			return obj;
 		})
+    console.log('sourcedata',data)
 	return data;
-	//console.log('sourcedata',data)
+
 
 }

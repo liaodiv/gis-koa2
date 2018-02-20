@@ -5,7 +5,7 @@ import { Dropdown, Button, Icon, Menu } from 'antd'
 const DropOption = ({ onMenuClick, menuOptions = [], buttonStyle, dropdownProps }) => {
 	const menu = menuOptions.map(item => <Menu.Item key={item.key}>{item.name}</Menu.Item>)
 	return (<Dropdown
-		overlay={<Menu onClick={onMenuClick}>{menu}</Menu>}
+		overlay={<Menu onClick={(value)=>{onMenuClick(value.key)}}>{menu}</Menu>}
 		{...dropdownProps}
 	>
 		<Button style={{ border: 'none', ...buttonStyle }}>

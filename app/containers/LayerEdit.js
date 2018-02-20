@@ -41,6 +41,12 @@ class LayerEdit extends Component{
 			}
 		)
 	}
+	setView = (ol_uid) => {
+	    this.props.dispatch({
+            type:'app/setView',
+            payload:ol_uid
+        })
+    }
 
 	operate = (type) => {
 		switch (type){
@@ -81,7 +87,7 @@ class LayerEdit extends Component{
 				<br/>
 				{(selectLayer === null)?
 					<div>未选中数据</div>:
-					<DataList data={dataList}/>
+					<DataList data={dataList} setView={this.setView} />
 				}
 
 

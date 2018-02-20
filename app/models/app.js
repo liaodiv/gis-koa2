@@ -1,6 +1,7 @@
 import * as Service from '../utils/service';
 import LayerGroup from '../containers/LayerGroup';
 import Operate from '../actions/editTool';
+import {animate} from '../actions/mapTool';
 import {featureTotable,sourceToTable} from '../actions/util';
 
 
@@ -69,11 +70,21 @@ export default {
 			return {...state}
 		},
 		setList(state,{payload}){
-			console.log(sourceToTable(LayerGroup.getSource(state.selectLayer)));
-			const geodata = state.layers.find((value)=>{
+			//console.log(sourceToTable(LayerGroup.getSource(state.selectLayer)));
+			/*const geodata = state.layers.find((value)=>{
 				return value.name === state.selectLayer
-			})
-			return {...state,dataList:featureTotable(geodata.data.features)}
-		}
+			})*/
+			const datalist = sourceToTable(LayerGroup.getSource(state.selectLayer))//featureTotable(geodata.data.features);
+			console.log('datalsit',datalist);
+			return {...state,dataList:datalist}
+		},
+        setView(state,{payload}){
+		    //payload 为uid  1getfeature
+            console.log(LayerGroup.getSource(state.selectLayer).getFeatures());
+            const feature = LayerGroup.getSource(state.selectLayer).getFeatureById(payload);
+            animate(feature.getGeometry());
+            return {...state}
+
+        }
 	}
 }
