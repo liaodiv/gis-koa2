@@ -13,7 +13,9 @@ export default {
 		layers:[],
 		config:null,
 		selectLayer:null,
-		dataList:[]
+		dataList:[],
+        modelType:"",
+        confirmLoading:false
 	},
 	effects:{
 		*getPoint({payload},{call,put}){
@@ -80,11 +82,13 @@ export default {
 		},
         setView(state,{payload}){
 		    //payload 为uid  1getfeature
-            console.log(LayerGroup.getSource(state.selectLayer).getFeatures());
             const feature = LayerGroup.getSource(state.selectLayer).getFeatureById(payload);
             animate(feature.getGeometry());
             return {...state}
-
+        },
+        setModel(state,{payload}){
+            return {...state,modelType:payload}
         }
+
 	}
 }
