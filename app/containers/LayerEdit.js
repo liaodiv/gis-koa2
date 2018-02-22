@@ -5,7 +5,9 @@ import LayerSelect from '../components/LayerManager';
 import ToolBar from '../components/EditTool';
 import {Op_DRAW,Op_end,Op_SELECT} from '../constants/operate';
 import DataList from '../components/DataList';
+import Model from '../components/editModel';
 import {featureTotable} from '../actions/util';
+
 
 //http://openlayers.org/en/latest/apidoc/ol.source.Vector.html#getFeatures
 class LayerEdit extends Component{
@@ -41,6 +43,20 @@ class LayerEdit extends Component{
 			}
 		)
 	}
+	setView = (ol_uid) => {
+	    this.props.dispatch({
+            type:'app/setView',
+            payload:ol_uid
+        })
+    }
+
+    setModel = (type) =>{
+		console.log('setModel is call')
+	    this.props.dispatch({
+            type:'app/setModel',
+            payload:type
+        })
+    }
 
 	operate = (type) => {
 		switch (type){
@@ -48,7 +64,7 @@ class LayerEdit extends Component{
 				this.props.dispatch(
 					{
 						type:'app/startEdit',
-						payload:{}
+						payload:this.setModel.bind(this)
 					}
 				);
 				break;
@@ -71,20 +87,24 @@ class LayerEdit extends Component{
 	}
 
 	render(){
-		const {layers,config,selectLayer,dataList} = this.props.app;
+		const {layers,config,selectLayer,dataList,modelType,confirmLoading} = this.props.app;
+        const modelProps = {
+            modelType:modelType,
+            confirmLoading:confirmLoading,
+            setModel:this.setModel
+        }
 
 		return(
 			<div>
 			<LayerSelect  getdata={ this.getData } config={layers} title={'开始编辑'}/>
 				<br/>
-				<ToolBar operate = {this.operate} disable={selectLayer === null}/>
+				<ToolBar operate = {this.operate} disable={selectLayer === null} setModel={this.setModel}/>
 				<br/>
 				{(selectLayer === null)?
 					<div>未选中数据</div>:
-					<DataList data={dataList}/>
+					<DataList data={dataList} setView={this.setView} />
 				}
-
-
+				<Model {...modelProps}/>
 			</div>
 		)
 	}

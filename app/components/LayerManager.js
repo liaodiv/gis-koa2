@@ -90,17 +90,7 @@ class LayerForm extends Component {
 
 }
 
-/*const Test = (props) => {
-	return(
-	<Form layout="inline" onSubmit={()=>{}}>
 
-		<Form.Item>
-			<Button type="primary" htmlType="submit">添加图层</Button>
-		</Form.Item>
-
-	</Form>
-	)
-}*/
 
 
 export default Form.create()(LayerForm);

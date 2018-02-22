@@ -4,6 +4,15 @@ import DropOption from './small/DropOption';
 
 //点击定位 操作删除
 const List = (props) => {
+    const {setView}  = props;
+    function droplist(record,key) {
+        if(key == '1'){
+            setView(record.uid)
+            console.log('key1',record)
+        }else {
+            console.log('key',record)
+        }
+    }
 	const columns =[{
 		title:'id',
 		dataIndex:'gid',
@@ -17,7 +26,10 @@ const List = (props) => {
 		title:'操作',
 		key:'operation',
 		render:(text,record) =>{
-			return <DropOption menuOptions={[{ key: '1', name: '定位' }, { key: '2', name: '修改' },{key:'3',name:'删除'}]}/>
+			return <DropOption
+                menuOptions={[{ key: '1', name: '定位' }, { key: '2', name: '修改' },{key:'3',name:'删除'}]}
+                onMenuClick={droplist.bind(null,record)}
+            />
 		}
 	}]
 	return (
@@ -25,7 +37,11 @@ const List = (props) => {
 			<Table
 				columns={columns}
 				dataSource={props.data}
-				size="middle"/>
+				size="middle"
+                rowKey={(record => {
+                    return record.uid
+                })}
+			/>
 		</div>
 	)
 }

@@ -1,15 +1,20 @@
 import Draw from 'ol/interaction/draw';
 import Select from 'ol/interaction/select';
+import {ADD_GEOMETRY} from '../constants/model';
 
 export default {
 	interaction : null,
-	startDraw:function (layer) {
+	startDraw:function (layer,callback) {
 		console.log(layer.getProperties());
 		this.stop();
 		this.interaction = new Draw({
 			source:layer.getSource(),
-			type:'Point'
+			type:'Point',
 		});
+		this.interaction.on('drawend',function (e) {
+			console.log('drawend',e.feature.getGeometry())
+			callback(ADD_GEOMETRY);
+		})
 		window.map.addInteraction(this.interaction);
 	},
 	stop:function () {

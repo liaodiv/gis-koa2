@@ -52,6 +52,20 @@
 			});
 		console.log(data);
 
+		var select = new ol.interaction.Select();
+		map.addInteraction(select);
+
+		select.on('select',function (e) {
+		    if(e.selected.length >= 1) {
+                var aa = e.selected[0].getGeometry().getExtent();
+                var oo = ol.extent.getCenter(aa);
+
+                console.log("this center is ", oo);
+            }else{
+		        console.log('未选中要素')
+            }
+        })
+
 
     </script>
 </body>

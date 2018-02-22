@@ -67,8 +67,6 @@ class LayerS extends Component{
 
                 </Form.Item>
             </Form>
-
-
                 )
     }
 }

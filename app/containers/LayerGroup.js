@@ -18,6 +18,10 @@ class LayerGroup{
     }
     addLayer(geodata,name){
         let features = new Geojson().readFeatures(geodata, {featureProjection: 'EPSG:4326'});
+
+        features.forEach((feature)=> {
+            feature.setId(feature.getProperties().gid);
+        })
         const layer = new VectorL({
             title:name,
             visible:true,

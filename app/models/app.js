@@ -1,6 +1,7 @@
 import * as Service from '../utils/service';
 import LayerGroup from '../containers/LayerGroup';
 import Operate from '../actions/editTool';
+import {animate} from '../actions/mapTool';
 import {featureTotable,sourceToTable} from '../actions/util';
 
 
@@ -11,8 +12,11 @@ export default {
 		OK:false,
 		layers:[],
 		config:null,
+		dblayers:[],
 		selectLayer:null,
-		dataList:[]
+		dataList:[],
+        modelType:"",
+        confirmLoading:false
 	},
 	effects:{
 		*getPoint({payload},{call,put}){
@@ -47,7 +51,7 @@ export default {
 		},
 		setConfig(state,{payload}){
 			if(state.config === null){
-				return {...state,config:payload}
+				return {...state,config:payload,dblayers:payload.map((value)=> {value.name})}
 			}else {
 				return {...state}
 			}
@@ -57,7 +61,7 @@ export default {
 			return {...state,selectLayer:payload}
 		},
 		startEdit(state,{payload}){
-			Operate.startDraw(LayerGroup.getLayer(state.selectLayer))
+			Operate.startDraw(LayerGroup.getLayer(state.selectLayer),payload)
 			return {...state}
 		},
 		startSelect(state,{payload}){
@@ -69,11 +73,23 @@ export default {
 			return {...state}
 		},
 		setList(state,{payload}){
-			console.log(sourceToTable(LayerGroup.getSource(state.selectLayer)));
-			const geodata = state.layers.find((value)=>{
+			//console.log(sourceToTable(LayerGroup.getSource(state.selectLayer)));
+			/*const geodata = state.layers.find((value)=>{
 				return value.name === state.selectLayer
-			})
-			return {...state,dataList:featureTotable(geodata.data.features)}
-		}
+			})*/
+			const datalist = sourceToTable(LayerGroup.getSource(state.selectLayer))//featureTotable(geodata.data.features);
+			console.log('datalsit',datalist);
+			return {...state,dataList:datalist}
+		},
+        setView(state,{payload}){
+		    //payload 为uid  1getfeature
+            const feature = LayerGroup.getSource(state.selectLayer).getFeatureById(payload);
+            animate(feature.getGeometry());
+            return {...state}
+        },
+        setModel(state,{payload}){
+            return {...state,modelType:payload}
+        }
+
 	}
 }
