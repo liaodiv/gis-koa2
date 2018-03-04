@@ -15,9 +15,6 @@ class LayerS extends Component{
             value:''
         }
 
-
-
-
     }
 
     startQuery = (e) => {

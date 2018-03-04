@@ -87,11 +87,14 @@ class LayerEdit extends Component{
 	}
 
 	render(){
-		const {layers,config,selectLayer,dataList,modelType,confirmLoading} = this.props.app;
+		const {layers,config,selectLayer,dataList,modelType,confirmLoading,dblayers} = this.props.app;
         const modelProps = {
             modelType:modelType,
             confirmLoading:confirmLoading,
-            setModel:this.setModel
+            setModel:this.setModel,
+			fieldData:dblayers.find((value) => {
+				return value.name === selectLayer
+			})
         }
 
 		return(

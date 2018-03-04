@@ -42,7 +42,9 @@ export default {
 
 	},
 	reducers:{
+		/// TODO 保存好configlayers
 		addLayer(state,{payload}){
+			//修改 select只获取name
 			LayerGroup.addLayer(payload.data,payload.name);
 			let config = state.config.filter(value => {
 				return value.name !== payload.name
@@ -51,7 +53,7 @@ export default {
 		},
 		setConfig(state,{payload}){
 			if(state.config === null){
-				return {...state,config:payload,dblayers:payload.map((value)=> {value.name})}
+				return {...state,config:payload,dblayers:payload}
 			}else {
 				return {...state}
 			}

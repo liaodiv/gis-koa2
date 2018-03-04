@@ -20,5 +20,9 @@ export default {
 	async getConfig(ctx){
 		let message = await getFile();
 		ctx.body = {data:message,code:1}
+	},
+	/// TODO 开发后台添加要素 
+	async addFeature(ctx){
+
 	}
 }
