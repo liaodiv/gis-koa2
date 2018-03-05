@@ -1,5 +1,6 @@
 import Draw from 'ol/interaction/draw';
 import Select from 'ol/interaction/select';
+import GeoJSON from 'ol/format/geojson';
 import {ADD_GEOMETRY} from '../constants/model';
 
 export default {
@@ -12,7 +13,9 @@ export default {
 			type:'Point',
 		});
 		this.interaction.on('drawend',function (e) {
-			console.log('drawend',e.feature.getGeometry())
+			const geometry = e.feature.getGeometry();
+			//console.log('drawend',new GeoJSON().writeGeometry(geometry));
+			window.addFeature = new GeoJSON().writeGeometryObject(geometry);
 			callback(ADD_GEOMETRY);
 		})
 		window.map.addInteraction(this.interaction);

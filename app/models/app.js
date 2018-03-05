@@ -38,6 +38,9 @@ export default {
 				payload:result.data
 			})
 		},
+		*addFeature({payload},{call,put}){
+			const result = yield call(Service.addFeature,payload);
+		}
 
 
 	},

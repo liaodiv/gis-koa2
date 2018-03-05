@@ -2,6 +2,6 @@
   {
     "name": "pointLayer",
     "type": "POINT",
-    "field": [{"database":"gid","display":"ID"},{"database":"name","display":"名称"}]
+    "field": [{"database":"name","display":"名称"}]
   }
 ]

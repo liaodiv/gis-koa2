@@ -28,7 +28,17 @@ const point = {
 		})
 		return Util.FeaturesToCollection(Arr);
 	},
-	async insertOne(){
+	async insertOne(data){
+		let obj = JSON.parse(data);
+		obj.geom.crs={type: 'name',properties:{name: 'EPSG:4326'}};
+		let result = await TestPoint
+			.create(obj)
+			.then((data)=> {
+				console.log('插入成功',Util.Togeojson(data));
+			})
+			.catch((err) => {
+				console.log("插入失败",err)
+			})
 
 	}
 }

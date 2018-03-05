@@ -15,3 +15,11 @@ export function getConfig() {
 		data:{}
 	})
 }
+
+export function addFeature(data) {
+	return request({
+		url:'/add',
+		method:'post',
+		data:data
+	})
+}

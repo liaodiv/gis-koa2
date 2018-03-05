@@ -49,6 +49,12 @@ class LayerEdit extends Component{
             payload:ol_uid
         })
     }
+    addFeature = (data) => {
+		this.props.dispatch({
+			type:'app/addFeature',
+			payload:data
+		})
+	}
 
     setModel = (type) =>{
 		console.log('setModel is call')
@@ -60,7 +66,7 @@ class LayerEdit extends Component{
 
 	operate = (type) => {
 		switch (type){
-			case Op_DRAW:
+			case Op_DRAW:   //绘图的时候把设置model当做回调函数传入
 				this.props.dispatch(
 					{
 						type:'app/startEdit',
@@ -94,7 +100,8 @@ class LayerEdit extends Component{
             setModel:this.setModel,
 			fieldData:dblayers.find((value) => {
 				return value.name === selectLayer
-			})
+			}),
+			add:this.addFeature
         }
 
 		return(

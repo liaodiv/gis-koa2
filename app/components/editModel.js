@@ -10,7 +10,7 @@ import Aform from './small/autoForm';
 const FormItem = Form.Item;
 const Model = (props) => {
 	///TODO 根据field字段生成编辑框
-    const {modelType,confirmLoading,fieldData} = props;
+    const {modelType,confirmLoading,fieldData,add} = props;
 	const { getFieldDecorator,validateFields,getFieldsValue,getFieldValue,resetFields} = props.form;
 
 	const formItemLayout = {
@@ -22,29 +22,10 @@ const Model = (props) => {
 			if(!err){
 				console.log('Received values of form: ', values);
 			}
+			//添加地理属性信息
+			values.geom = window.addFeature;
+			 add(values);
 		})
-	}
-	const AForm = () => {
-		if(fieldData){
-			return(
-				<Form>
-					{fieldData.field.map((value, index) => {
-						return(
-							<FormItem label={value.display} {...formItemLayout} key={index}>
-								{
-									getFieldDecorator(value.database, {
-										rules: [{required: true, message: "请输入值"}]
-										//initialValue:initValue('toolname')
-									})(<Input/>)
-								}
-							</FormItem>
-						)
-					})
-					}
-				</Form>
-			)
-		}
-
 	}
     return(
         <Modal
@@ -54,8 +35,24 @@ const Model = (props) => {
             visible = {modelType === ADD_GEOMETRY}
             confirmLoading={confirmLoading}
         >
-			{/*<Aform fieldData={fieldData}/>*/}
-			<AForm/>
+
+			<Form>
+			{
+				fieldData &&  //条件渲染判断是否存在
+				fieldData.field.map((value, index) => {
+					return(
+						<FormItem label={value.display} {...formItemLayout} key={index}>
+							{
+								getFieldDecorator(value.database, {
+									rules: [{required: true, message: "请输入值"}]
+									//initialValue:initValue('toolname')
+								})(<Input/>)
+							}
+						</FormItem>
+					)
+				})
+			}
+			</Form>
 
         </Modal>
     )

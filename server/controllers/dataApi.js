@@ -21,8 +21,11 @@ export default {
 		let message = await getFile();
 		ctx.body = {data:message,code:1}
 	},
-	/// TODO 开发后台添加要素 
+	/// TODO 开发后台添加要素
 	async addFeature(ctx){
+		const data = JSON.stringify(ctx.request.body);
+		Point.insertOne(data);
+		/*console.log('要素信息为',data);*/
 
 	}
 }
