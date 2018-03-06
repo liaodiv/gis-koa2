@@ -8,3 +8,4 @@ export default router
 	.get('/allPoint',ApiController.getAllPoint)
 	.get('/config',ApiController.getConfig)
 	.post('/add',ApiController.addFeature)
+	.delete('/feature',ApiController.deleteFeature)

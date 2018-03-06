@@ -56,6 +56,13 @@ class LayerEdit extends Component{
 		})
 	}
 
+	deleteFeature = (data) => {
+		this.props.dispatch({
+			type:'app/deleteFeature',
+			payload:data
+		})
+	}
+
     setModel = (type) =>{
 		console.log('setModel is call')
 	    this.props.dispatch({
@@ -112,7 +119,7 @@ class LayerEdit extends Component{
 				<br/>
 				{(selectLayer === null)?
 					<div>未选中数据</div>:
-					<DataList data={dataList} setView={this.setView} />
+					<DataList data={dataList} setView={this.setView} deleteFea={this.deleteFeature}/>
 				}
 				<Model {...modelProps}/>
 			</div>

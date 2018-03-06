@@ -24,8 +24,14 @@ export default {
 	/// TODO 开发后台添加要素
 	async addFeature(ctx){
 		const data = JSON.stringify(ctx.request.body);
-		Point.insertOne(data);
+		const result =await Point.insertOne(data);
+		ctx.body ={data:result,code:1}
 		/*console.log('要素信息为',data);*/
-
+	},
+	async deleteFeature(ctx){
+		const data = ctx.request.body;
+		console.log('data',data);
+		const result = await Point.deleteOne(data.gid);
+		ctx.body ={data:'请求成功',code:result}
 	}
 }

@@ -23,3 +23,12 @@ export function addFeature(data) {
 		data:data
 	})
 }
+
+export function deleteFeature(data) {
+	return request({
+		url:'/feature',
+		method:'delete',
+		data:data
+	})
+
+}

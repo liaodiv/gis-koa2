@@ -1,8 +1,9 @@
 import * as Service from '../utils/service';
 import LayerGroup from '../containers/LayerGroup';
 import Operate from '../actions/editTool';
-import {animate} from '../actions/mapTool';
+import {animate,ligter} from '../actions/mapTool';
 import {featureTotable,sourceToTable} from '../actions/util';
+import {message} from 'antd';
 
 
 /// TODO 完成单个图层的增删改
@@ -40,8 +41,33 @@ export default {
 		},
 		*addFeature({payload},{call,put}){
 			const result = yield call(Service.addFeature,payload);
-		}
+			if(result.code === 1){
+				message.success('添加成功')
+				yield put({
+					type:'setModel',
+					payload:''
+				})
+				yield put({
+					type:'addOneTable',
+					payload:result.data
+				})
+			}
+		},
+		*deleteFeature({payload},{call,put}){
+			const result = yield call(Service.deleteFeature,payload);
+			if(result.code === 1 ){
+				message.success('删除成功')
+				yield put({
+					type:'deleteOneTable',
+					payload:payload
+				})
 
+				//删除表格中的此数据
+				//删除地图上的此点
+			}else {
+				message.success('删除失败')
+			}
+		}
 
 	},
 	reducers:{
@@ -90,11 +116,31 @@ export default {
 		    //payload 为uid  1getfeature
             const feature = LayerGroup.getSource(state.selectLayer).getFeatureById(payload);
             animate(feature.getGeometry());
+            ligter(feature);
             return {...state}
         },
         setModel(state,{payload}){
             return {...state,modelType:payload}
-        }
+        },
+		//payload 为一个geojson队形
+		addOneTable(state,{payload}){ //更新数据到表格
+			let obj = payload.properties;
+			obj.uid = obj.gid;
+			let tabledata =  [...state.dataList,obj];
+			//设置feature
+			window.addFeature.setId(obj.gid);
+			window.addFeature = null;
+			return {...state,dataList:tabledata}
+		},
+		deleteOneTable(state,{payload}){
+			LayerGroup.deleteOne(state.selectLayer,payload.gid);
+			const tabledata = state
+							.dataList
+							.filter((value) => {
+								return value.gid !== payload.gid
+							});
+			return {...state,dataList:tabledata};
+		}
 
 	}
 }

@@ -5,6 +5,7 @@
 import React from 'react';
 import {Modal,Button,Form,Input} from 'antd';
 import {ADD_GEOMETRY} from '../constants/model';
+import GeoJson from 'ol/format/geojson';
 import Aform from './small/autoForm';
 
 const FormItem = Form.Item;
@@ -23,7 +24,7 @@ const Model = (props) => {
 				console.log('Received values of form: ', values);
 			}
 			//添加地理属性信息
-			values.geom = window.addFeature;
+			values.geom = new GeoJson().writeGeometryObject(window.addFeature.getGeometry());
 			 add(values);
 		})
 	}
@@ -35,7 +36,6 @@ const Model = (props) => {
             visible = {modelType === ADD_GEOMETRY}
             confirmLoading={confirmLoading}
         >
-
 			<Form>
 			{
 				fieldData &&  //条件渲染判断是否存在

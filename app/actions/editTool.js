@@ -15,12 +15,15 @@ export default {
 		this.interaction.on('drawend',function (e) {
 			const geometry = e.feature.getGeometry();
 			//console.log('drawend',new GeoJSON().writeGeometry(geometry));
-			window.addFeature = new GeoJSON().writeGeometryObject(geometry);
+			window.addFeature = e.feature;///new GeoJSON().writeGeometryObject(geometry);
 			callback(ADD_GEOMETRY);
 		})
 		window.map.addInteraction(this.interaction);
 	},
 	stop:function () {
+		if(window.ligterFeature){
+			window.ligterFeature.setStyle();
+		}
 		if(this.interaction !== null) {
 			window.map.removeInteraction(this.interaction);
 		}

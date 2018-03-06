@@ -31,15 +31,12 @@ const point = {
 	async insertOne(data){
 		let obj = JSON.parse(data);
 		obj.geom.crs={type: 'name',properties:{name: 'EPSG:4326'}};
-		let result = await TestPoint
-			.create(obj)
-			.then((data)=> {
-				console.log('插入成功',Util.Togeojson(data));
-			})
-			.catch((err) => {
-				console.log("插入失败",err)
-			})
-
+		let result = await TestPoint.create(obj);
+		return Util.Togeojson(result);
+	},
+	async deleteOne(gid){
+		let result = await TestPoint.destroy({where:{gid:gid}});
+		return result;
 	}
 }
 

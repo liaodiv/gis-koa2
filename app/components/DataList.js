@@ -4,14 +4,24 @@ import DropOption from './small/DropOption';
 
 //点击定位 操作删除
 const List = (props) => {
-    const {setView}  = props;
+    const {setView,deleteFea}  = props;
+
+	/**
+	 * menu按钮触发函数
+	 * @param record
+	 * @param key
+	 */
     function droplist(record,key) {
-        if(key == '1'){
-            setView(record.uid)
-            console.log('key1',record)
-        }else {
-            console.log('key',record)
-        }
+    	switch (key){
+			case '1':
+				setView(record.uid)
+				break;
+			case '2':
+				break;
+			case '3':
+				deleteFea({gid:record.uid})
+				break;
+		}
     }
 	const columns =[{
 		title:'id',
