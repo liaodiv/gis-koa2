@@ -37,6 +37,10 @@ const point = {
 	async deleteOne(gid){
 		let result = await TestPoint.destroy({where:{gid:gid}});
 		return result;
+	},
+	async updateOne(obj,id){
+		let result = await TestPoint.update(obj,{where:{gid:id}});
+		return result;
 	}
 }
 

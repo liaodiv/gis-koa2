@@ -72,6 +72,10 @@ class LayerGroup{
         const source = this.getSource(layername);//.removeFeature()
         source.removeFeature(source.getFeatureById(id));
     }
+    deleteFea(layername,feature){
+		const source = this.getSource(layername)
+        source.removeFeature(feature);
+    }
 
 
 }

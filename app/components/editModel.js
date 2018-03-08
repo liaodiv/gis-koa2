@@ -4,14 +4,16 @@
  */
 import React from 'react';
 import {Modal,Button,Form,Input} from 'antd';
-import {ADD_GEOMETRY} from '../constants/model';
+import {ADD_GEOMETRY,EDIT_GEOMETRY} from '../constants/model';
 import GeoJson from 'ol/format/geojson';
 import Aform from './small/autoForm';
+
 
 const FormItem = Form.Item;
 const Model = (props) => {
 	///TODO 根据field字段生成编辑框
-    const {modelType,confirmLoading,fieldData,add} = props;
+	///TODO 增加修改编辑
+    const {modelType,confirmLoading,fieldData,add,setModel,CancelFea,editRow,update} = props;
 	const { getFieldDecorator,validateFields,getFieldsValue,getFieldValue,resetFields} = props.form;
 
 	const formItemLayout = {
@@ -24,16 +26,41 @@ const Model = (props) => {
 				console.log('Received values of form: ', values);
 			}
 			//添加地理属性信息
-			values.geom = new GeoJson().writeGeometryObject(window.addFeature.getGeometry());
-			 add(values);
+			if(modelType === ADD_GEOMETRY) {
+				values.geom = new GeoJson().writeGeometryObject(window.addFeature.getGeometry());
+				add(values);
+			}else {
+				update({
+					obj:{
+						...values
+					},
+					id:editRow.gid
+				})
+
+			}
 		})
+	}
+
+	const getInitValue = (title) => {
+		if(modelType === EDIT_GEOMETRY ){
+			return editRow[title];
+		}else {
+			return '';
+		}
 	}
     return(
         <Modal
-            title="添加数据"
+            title= {modelType}
             onOk={handle}
-            onCancel={()=>{}}
-            visible = {modelType === ADD_GEOMETRY}
+            onCancel={()=>{
+            	setModel(''); //关闭模态框
+				//删除添加进去的feature
+				if(modelType === ADD_GEOMETRY) {
+					CancelFea();
+				}
+
+            }}
+            visible = {modelType === ADD_GEOMETRY || modelType === EDIT_GEOMETRY}
             confirmLoading={confirmLoading}
         >
 			<Form>
@@ -44,8 +71,8 @@ const Model = (props) => {
 						<FormItem label={value.display} {...formItemLayout} key={index}>
 							{
 								getFieldDecorator(value.database, {
-									rules: [{required: true, message: "请输入值"}]
-									//initialValue:initValue('toolname')
+									rules: [{required: true, message: "请输入值"}],
+									initialValue:getInitValue(value.database)
 								})(<Input/>)
 							}
 						</FormItem>

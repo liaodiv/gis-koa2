@@ -1,4 +1,5 @@
 import Point from '../models/Point';
+import Line from '../models/ComLine';
 import fs from 'fs';
 
 function getFile() {
@@ -33,5 +34,15 @@ export default {
 		console.log('data',data);
 		const result = await Point.deleteOne(data.gid);
 		ctx.body ={data:'请求成功',code:result}
+	},
+	async updataFeature(ctx){
+		const data = ctx.request.body;
+		const result = await  Point.updateOne(data.obj,data.id);
+		console.log('up result',result);
+		ctx.body ={data:'请求成功',code:result[0]}
+	},
+	async getAllLine(ctx){
+		let geojson = await Line.getAll();
+		ctx.body = {data:geojson,code:1,name:'communication_line'}
 	}
 }

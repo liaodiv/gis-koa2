@@ -30,5 +30,13 @@ export function deleteFeature(data) {
 		method:'delete',
 		data:data
 	})
+}
+
+export function updateFeature(data) {
+	return request({
+		url:'/point',
+		method:'put',
+		data:data
+	})
 
 }

@@ -3,5 +3,14 @@
     "name": "pointLayer",
     "type": "POINT",
     "field": [{"database":"name","display":"名称"}]
+  },
+  {
+    "name":"communication_line",
+    "type":"LINESTRING",
+    "field":[{"database":"location","display":"名称"},
+             {"database":"last_check","display":"检查时间"},
+              {"database":"condition","display":"评价"},
+              {"database":"name","display":"名称"}
+            ]
   }
 ]

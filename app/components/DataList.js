@@ -4,7 +4,7 @@ import DropOption from './small/DropOption';
 
 //点击定位 操作删除
 const List = (props) => {
-    const {setView,deleteFea}  = props;
+    const {setView,deleteFea,setRow}  = props;
 
 	/**
 	 * menu按钮触发函数
@@ -17,6 +17,7 @@ const List = (props) => {
 				setView(record.uid)
 				break;
 			case '2':
+				setRow(record);
 				break;
 			case '3':
 				deleteFea({gid:record.uid})

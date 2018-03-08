@@ -1,5 +1,5 @@
-/// npm run build-dev
-//    nodemon server/index.js
+后台 postgresql koa2 sequelize
+前端 react dva redux antd
 
-
-//删除的实现 用id去获取feature进行进一步操作
+/// npm run build
+//  nodemon server/index.js  启动后台

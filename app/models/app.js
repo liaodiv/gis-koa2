@@ -16,7 +16,8 @@ export default {
 		dblayers:[],
 		selectLayer:null,
 		dataList:[],
-        modelType:"",
+        modelType:"",    //当前显示modal种类
+		editRow:null,    //当前编辑的表格数据
         confirmLoading:false
 	},
 	effects:{
@@ -65,8 +66,25 @@ export default {
 				//删除表格中的此数据
 				//删除地图上的此点
 			}else {
-				message.success('删除失败')
+				message.error('删除失败')
 			}
+		},
+		*updateFeature({payload},{call,put}){
+			const result = yield call(Service.updateFeature,payload);
+			if(result.code === 1){
+				message.success('更新成功');
+				yield put({
+					type:'upOneTable',
+					payload:payload
+				})
+
+			}else {
+				message.error('更新失败')
+			}
+			yield put({
+				type:'setModel',
+				payload:''
+			})
 		}
 
 	},
@@ -132,6 +150,28 @@ export default {
 			window.addFeature = null;
 			return {...state,dataList:tabledata}
 		},
+		upOneTable(state,{payload}){
+			/// 修改表格中展示的值
+			let tableData = state
+							.dataList
+							.map((value)=> {
+								if(value.gid === payload.id){
+									return {
+										...value,
+										...payload.obj   ///用新的值覆盖
+									}
+								}else {
+									return value
+								}
+							});
+			return {...state,dataList:tableData};
+		},
+		cancelFea(state,{payload}){
+			console.log('cancel',state.selectLayer)
+			LayerGroup.deleteFea(state.selectLayer,window.addFeature);
+			window.addFeature = null;
+			return{...state}
+		},
 		deleteOneTable(state,{payload}){
 			LayerGroup.deleteOne(state.selectLayer,payload.gid);
 			const tabledata = state
@@ -140,6 +180,9 @@ export default {
 								return value.gid !== payload.gid
 							});
 			return {...state,dataList:tabledata};
+		},
+		setRow(state,{payload}){
+			return {...state,editRow:payload}
 		}
 
 	}

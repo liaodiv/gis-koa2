@@ -9,3 +9,5 @@ export default router
 	.get('/config',ApiController.getConfig)
 	.post('/add',ApiController.addFeature)
 	.delete('/feature',ApiController.deleteFeature)
+	.put('/point',ApiController.updataFeature)
+    .get('/allLine',ApiController.getAllLine)

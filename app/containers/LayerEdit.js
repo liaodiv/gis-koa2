@@ -7,6 +7,7 @@ import {Op_DRAW,Op_end,Op_SELECT} from '../constants/operate';
 import DataList from '../components/DataList';
 import Model from '../components/editModel';
 import {featureTotable} from '../actions/util';
+import {EDIT_GEOMETRY} from '../constants/model';
 
 
 //http://openlayers.org/en/latest/apidoc/ol.source.Vector.html#getFeatures
@@ -55,6 +56,13 @@ class LayerEdit extends Component{
 			payload:data
 		})
 	}
+	upFeature = (data) => {
+		console.log('update',data)
+		this.props.dispatch({
+			type:'app/updateFeature',
+			payload:data
+		})
+	}
 
 	deleteFeature = (data) => {
 		this.props.dispatch({
@@ -64,12 +72,25 @@ class LayerEdit extends Component{
 	}
 
     setModel = (type) =>{
-		console.log('setModel is call')
 	    this.props.dispatch({
             type:'app/setModel',
             payload:type
         })
     }
+
+    CancelFea = () => {
+		this.props.dispatch({
+			type:'app/cancelFea',
+			payload:{}
+		})
+	}
+	setRow = (data) => {
+		this.props.dispatch({
+			type:'app/setRow',
+			payload:data
+		})
+		this.setModel(EDIT_GEOMETRY);
+	}
 
 	operate = (type) => {
 		switch (type){
@@ -100,7 +121,7 @@ class LayerEdit extends Component{
 	}
 
 	render(){
-		const {layers,config,selectLayer,dataList,modelType,confirmLoading,dblayers} = this.props.app;
+		const {layers,config,selectLayer,dataList,modelType,confirmLoading,dblayers,editRow} = this.props.app;
         const modelProps = {
             modelType:modelType,
             confirmLoading:confirmLoading,
@@ -108,7 +129,10 @@ class LayerEdit extends Component{
 			fieldData:dblayers.find((value) => {
 				return value.name === selectLayer
 			}),
-			add:this.addFeature
+			add:this.addFeature,
+			CancelFea:this.CancelFea,
+			editRow:editRow,
+			update:this.upFeature
         }
 
 		return(
@@ -119,7 +143,7 @@ class LayerEdit extends Component{
 				<br/>
 				{(selectLayer === null)?
 					<div>未选中数据</div>:
-					<DataList data={dataList} setView={this.setView} deleteFea={this.deleteFeature}/>
+					<DataList data={dataList} setView={this.setView} deleteFea={this.deleteFeature} setRow={this.setRow}/>
 				}
 				<Model {...modelProps}/>
 			</div>
