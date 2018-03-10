@@ -1,13 +1,16 @@
 
 import Router from 'koa-router';
-import ApiController from '../controllers/dataApi'
-
+//import ApiController from '../controllers/dataApi'
+import ApiController from '../controllers/modelApi';
 const router = new Router();
 
 export default router
-	.get('/allPoint',ApiController.getAllPoint)
+	.get('/layer',ApiController.getLayer)
 	.get('/config',ApiController.getConfig)
-	.post('/add',ApiController.addFeature)
+	.post('/layer',ApiController.addFeature)
+
+	/*.post('/add',ApiController.addFeature)
 	.delete('/feature',ApiController.deleteFeature)
 	.put('/point',ApiController.updataFeature)
-    .get('/allLine',ApiController.getAllLine)
+	.get('/communication_line',ApiController.getAllLine)
+	.post('/communication_line')*/

@@ -21,8 +21,8 @@ export default {
         confirmLoading:false
 	},
 	effects:{
-		*getPoint({payload},{call,put}){
-			const result = yield call(Service.getAll);
+		*getLayer({payload},{call,put}){
+			const result = yield call(Service.getAll,payload);
 			console.log(result);
 			yield put({
 				type:'addLayer',

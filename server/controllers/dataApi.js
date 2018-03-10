@@ -12,7 +12,7 @@ function getFile() {
 		})
 	})
 }
-
+//重写controler
 export default {
 	async getAllPoint(ctx){
 		let geojson = await Point.getAll();

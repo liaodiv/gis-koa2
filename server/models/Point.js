@@ -44,11 +44,5 @@ const point = {
 	}
 }
 
-async function getdata() {
-	let geojson = await point.getAll();
-
-}
-
-//getdata();
 
 export default  point;

@@ -27,7 +27,7 @@ class LayerEdit extends Component{
 	getData =(data)=>{
 		this.props.dispatch({
 			type:'app/selectLayer',
-			payload:data.select
+			payload:data
 		})
 
 		this.props.dispatch({
@@ -122,13 +122,14 @@ class LayerEdit extends Component{
 
 	render(){
 		const {layers,config,selectLayer,dataList,modelType,confirmLoading,dblayers,editRow} = this.props.app;
+		const fieldData = dblayers.find((value) => {
+			return value.name === selectLayer
+		});
         const modelProps = {
             modelType:modelType,
             confirmLoading:confirmLoading,
             setModel:this.setModel,
-			fieldData:dblayers.find((value) => {
-				return value.name === selectLayer
-			}),
+			fieldData:fieldData,
 			add:this.addFeature,
 			CancelFea:this.CancelFea,
 			editRow:editRow,
@@ -143,7 +144,7 @@ class LayerEdit extends Component{
 				<br/>
 				{(selectLayer === null)?
 					<div>未选中数据</div>:
-					<DataList data={dataList} setView={this.setView} deleteFea={this.deleteFeature} setRow={this.setRow}/>
+					<DataList data={dataList} setView={this.setView} deleteFea={this.deleteFeature} setRow={this.setRow} fieldData={fieldData}/>
 				}
 				<Model {...modelProps}/>
 			</div>

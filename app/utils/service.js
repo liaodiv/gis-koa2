@@ -1,8 +1,8 @@
 import {request} from './request';
 
-export function getAll() {
+export function getAll(url) {
 	return request({
-		url:'/allPoint',
+		url:`/layer?{layername=${url}`,
 		method:'get',
 		data:{}
 	})
@@ -18,7 +18,7 @@ export function getConfig() {
 
 export function addFeature(data) {
 	return request({
-		url:'/add',
+		url:'/layer',
 		method:'post',
 		data:data
 	})

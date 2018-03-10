@@ -16,10 +16,10 @@ class LayerCone extends Component{
 		console.log('container delete')
 	}
 
-	getData =()=>{
+	getData =(layername)=>{
 		this.props.dispatch({
-			type:'app/getPoint',
-			payload:{}
+			type:'app/getLayer',
+			payload:layername
 		})
 	}
 	getConfig= () => {
