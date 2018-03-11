@@ -2,7 +2,7 @@ import {request} from './request';
 
 export function getAll(url) {
 	return request({
-		url:`/layer?{layername=${url}`,
+		url:`/layer?layername=${url}`,
 		method:'get',
 		data:{}
 	})
@@ -16,7 +16,7 @@ export function getConfig() {
 	})
 }
 
-export function addFeature(data) {
+export function addFeature(data) { /// TODO 测试增加要素的接口
 	return request({
 		url:'/layer',
 		method:'post',

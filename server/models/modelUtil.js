@@ -13,7 +13,7 @@ export async function getAll(model) {
 
 export async function insertOne(model,data) {
 	if(model.create instanceof Function){
-		let obj = JSON.parse(data);
+		let obj = data;
 		obj.geom.crs={type: 'name',properties:{name: 'EPSG:4326'}};
 		let result = await model.create(obj);
 		return Util.Togeojson(result);

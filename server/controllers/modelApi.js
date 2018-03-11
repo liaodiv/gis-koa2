@@ -26,8 +26,8 @@ export default {
 	},
 	async addFeature(ctx){
 		let data = ctx.request.body;
-		const model = Models[data.layername];
-		const result = await insertOne(data.data);
+		const model = Models[data.layername]; // 添加数据组织
+		const result = await insertOne(model,data.data);
 		ctx.body = {data:result,code:1};
 
 	}

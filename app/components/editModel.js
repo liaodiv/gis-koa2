@@ -13,7 +13,7 @@ const FormItem = Form.Item;
 const Model = (props) => {
 	///TODO 根据field字段生成编辑框
 	///TODO 增加修改编辑
-    const {modelType,confirmLoading,fieldData,add,setModel,CancelFea,editRow,update} = props;
+    const {modelType,confirmLoading,fieldData,add,setModel,CancelFea,editRow,update,selectLayer} = props;
 	const { getFieldDecorator,validateFields,getFieldsValue,getFieldValue,resetFields} = props.form;
 
 	const formItemLayout = {
@@ -28,7 +28,11 @@ const Model = (props) => {
 			//添加地理属性信息
 			if(modelType === ADD_GEOMETRY) {
 				values.geom = new GeoJson().writeGeometryObject(window.addFeature.getGeometry());
-				add(values);
+				const postData = {
+					layername:selectLayer,
+					data:values
+				}
+				add(postData);
 			}else {
 				update({
 					obj:{

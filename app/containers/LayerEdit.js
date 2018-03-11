@@ -129,6 +129,7 @@ class LayerEdit extends Component{
             modelType:modelType,
             confirmLoading:confirmLoading,
             setModel:this.setModel,
+			selectLayer:selectLayer,
 			fieldData:fieldData,
 			add:this.addFeature,
 			CancelFea:this.CancelFea,
