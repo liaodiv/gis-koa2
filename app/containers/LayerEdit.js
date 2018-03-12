@@ -57,17 +57,25 @@ class LayerEdit extends Component{
 		})
 	}
 	upFeature = (data) => {
-		console.log('update',data)
+		const obj = {
+			layername:this.props.app.selectLayer,
+			data:data
+		}
 		this.props.dispatch({
 			type:'app/updateFeature',
-			payload:data
+			payload:obj
 		})
 	}
 
 	deleteFeature = (data) => {
+		const obj = {
+			layername:this.props.app.selectLayer,
+			data:data
+		}
+		console.log(obj);
 		this.props.dispatch({
 			type:'app/deleteFeature',
-			payload:data
+			payload:obj
 		})
 	}
 

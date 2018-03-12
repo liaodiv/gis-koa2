@@ -29,7 +29,18 @@ export default {
 		const model = Models[data.layername]; // 添加数据组织
 		const result = await insertOne(model,data.data);
 		ctx.body = {data:result,code:1};
-
+	},
+	async deleteFeature(ctx){
+		let data = ctx.request.body;
+		const model = Models[data.layername];
+		const result = await deleteOne(model,data.data.gid);
+		ctx.body = {data:result,code:1};
+	},
+	async updateFeature(ctx){
+		let data = ctx.request.body;
+		const model = Models[data.layername];
+		const result = await  updateOne(model,data.data.obj,data.data.id);
+		ctx.body ={data:'请求成功',code:result[0]}
 	}
 
 }

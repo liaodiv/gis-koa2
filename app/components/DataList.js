@@ -20,7 +20,11 @@ const List = (props) => {
 				setRow(record);
 				break;
 			case '3':
-				deleteFea({gid: record.uid})
+				deleteFea(
+					{
+						gid: record.uid
+					})
+
 				break;
 		}
 	}

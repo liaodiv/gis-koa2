@@ -5,16 +5,16 @@ import {ADD_GEOMETRY} from '../constants/model';
 
 export default {
 	interaction : null,
-	startDraw:function (layer,callback) {
+	startDraw:function (layer,type,callback) {
 		console.log(layer.getProperties());
 		this.stop();
 		this.interaction = new Draw({
 			source:layer.getSource(),
-			type:'Point',
+			type:type,
 		});
 		this.interaction.on('drawend',function (e) {
 			const geometry = e.feature.getGeometry();
-			//console.log('drawend',new GeoJSON().writeGeometry(geometry));
+			console.log('drawend',new GeoJSON().writeGeometry(geometry));
 			window.addFeature = e.feature;///new GeoJSON().writeGeometryObject(geometry);
 			callback(ADD_GEOMETRY);
 		})

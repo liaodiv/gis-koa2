@@ -42,5 +42,24 @@ export function ligter(feature){
 		})
 	});
 	feature.setStyle(ligter);
+}
 
+export function setLayerColor(layers,color) {
+	const style = new Style({
+		stroke: new Stroke({
+			color: color,
+			width: 2
+		}),
+		fill:new Stroke({
+			color:color,
+			width:2
+		}),
+		image: new Circle({
+			radius: 7,
+			fill: new Fill({
+				color: color
+			})
+		})
+	})
+	layers.setStyle(style);
 }

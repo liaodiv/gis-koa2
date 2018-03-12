@@ -40,9 +40,28 @@ const TestPoint = sequelzie
 	},{
 		freezeTableName:true,
 		timestamps:false
-	})
+	});
+
+const TestLine = sequelzie
+	.define('new_line',{
+		gid:{
+			type:Sequelize.INTEGER,
+			primaryKey: true,
+			autoIncrement:true
+		},
+		name:{
+			type:Sequelize.STRING
+		},
+		geom:{
+			type:Sequelize.GEOMETRY
+		}
+	},{
+		freezeTableName:true,
+		timestamps:false
+	});
 
 export default {
 	pointLayer:TestPoint,
-	communication_line:ComLine
+	communication_line:ComLine,
+	lineLayer:TestLine
 }

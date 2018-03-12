@@ -1,7 +1,7 @@
 import * as Service from '../utils/service';
 import LayerGroup from '../containers/LayerGroup';
 import Operate from '../actions/editTool';
-import {animate,ligter} from '../actions/mapTool';
+import {animate,ligter,setLayerColor} from '../actions/mapTool';
 import {featureTotable,sourceToTable} from '../actions/util';
 import {message} from 'antd';
 
@@ -15,6 +15,7 @@ export default {
 		config:null,
 		dblayers:[],
 		selectLayer:null,
+		selectColor:null,
 		dataList:[],
         modelType:"",    //当前显示modal种类
 		editRow:null,    //当前编辑的表格数据
@@ -96,7 +97,7 @@ export default {
 			let config = state.config.filter(value => {
 				return value.name !== payload.name
 			})
-			return {...state,layers:state.layers.concat([{name:payload.name,data:payload.data}]),config:config}
+			return {...state,layers:state.layers.concat([{name:payload.name,data:payload.data,color:'#DEB887'}]),config:config}
 		},
 		setConfig(state,{payload}){
 			if(state.config === null){
@@ -109,8 +110,17 @@ export default {
 			console.log(payload);
 			return {...state,selectLayer:payload}
 		},
+		selectColor(state,{payload}){
+			return {...state,selectColor:payload};
+		},
 		startEdit(state,{payload}){
-			Operate.startDraw(LayerGroup.getLayer(state.selectLayer),payload)
+			Operate.startDraw(
+				LayerGroup.getLayer(state.selectLayer),
+				state.dblayers.find((value) => {
+					return value.name === state.selectLayer
+					})
+					.type,
+				payload)
 			return {...state}
 		},
 		startSelect(state,{payload}){
@@ -155,10 +165,10 @@ export default {
 			let tableData = state
 							.dataList
 							.map((value)=> {
-								if(value.gid === payload.id){
+								if(value.gid === payload.data.id){
 									return {
 										...value,
-										...payload.obj   ///用新的值覆盖
+										...payload.data.obj   ///用新的值覆盖
 									}
 								}else {
 									return value
@@ -173,16 +183,29 @@ export default {
 			return{...state}
 		},
 		deleteOneTable(state,{payload}){
-			LayerGroup.deleteOne(state.selectLayer,payload.gid);
+			LayerGroup.deleteOne(state.selectLayer,payload.data.gid);
 			const tabledata = state
 							.dataList
 							.filter((value) => {
-								return value.gid !== payload.gid
+								return value.gid !== payload.data.gid
 							});
 			return {...state,dataList:tabledata};
 		},
 		setRow(state,{payload}){
 			return {...state,editRow:payload}
+		},
+		setLayerColor(state,{payload}){
+			console.log(payload);
+			setLayerColor(LayerGroup.getLayer(payload.layer),payload.color);
+			const layers = state.layers.map(value => {
+				if(value.name === payload.layer){
+					value.color = payload.color;
+					return value
+				}else {
+					return value;
+				}
+			})
+			return{...state,layers:layers}
 		}
 
 	}

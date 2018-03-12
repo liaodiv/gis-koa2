@@ -1,5 +1,5 @@
 import  React ,{ Component } from 'react';
-import { List , Switch } from 'antd';
+import { List , Switch ,Button } from 'antd';
 import LayerG from '../containers/LayerGroup';
 
 const  data = ['layer1','layer2','layer3'];
@@ -16,6 +16,7 @@ class LayerList extends  Component{
 
     }
     render(){
+        const {setColor} = this.props;
         return(
             <List
                 dataSource={this.props.data}
@@ -26,7 +27,10 @@ class LayerList extends  Component{
                               LayerG.setVisible(item.name ,checked);
                             }
                         }/>]}>
-                        {item.name}</List.Item>
+                        {item.name}
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+						<Button size="small" shape="circle" style={{backgroundColor:item.color}} onClick={()=>{setColor({name:item.name,color:item.color})}} >{"  "}</Button>
+                        </List.Item>
                 ) }>
             </List>
         )

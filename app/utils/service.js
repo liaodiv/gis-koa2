@@ -26,7 +26,7 @@ export function addFeature(data) { /// TODO 测试增加要素的接口
 
 export function deleteFeature(data) {
 	return request({
-		url:'/feature',
+		url:'/layer',
 		method:'delete',
 		data:data
 	})
@@ -34,7 +34,7 @@ export function deleteFeature(data) {
 
 export function updateFeature(data) {
 	return request({
-		url:'/point',
+		url:'/layer',
 		method:'put',
 		data:data
 	})

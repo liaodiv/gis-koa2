@@ -1,16 +1,23 @@
 [
   {
     "name": "pointLayer",
-    "type": "POINT",
+    "type": "Point",
     "field": [{"database":"name","display":"名称"}]
   },
   {
     "name":"communication_line",
-    "type":"LINESTRING",
+    "type":"LineString",
     "field":[
       {"database":"location","display":"名称"},
       {"database":"last_check","display":"检查时间"},
       {"database":"condition","display":"评价"}
+    ]
+  },
+  {
+    "name":"lineLayer",
+    "type":"LineString",
+    "field":[
+      {"database":"name","display":"名称"}
     ]
   }
 ]
