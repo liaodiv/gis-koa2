@@ -2,6 +2,9 @@ import React from 'react';
 import { Layout , Button, Menu ,Icon } from 'antd';
 import SideBar from './components/SiderBar.js';
 import MapView from './containers/MapView.js';
+import ThreeView from './containers/ThreeView';
+import THREE from './components/three/container';
+import ViewS from './containers/Viewswi';
 import {Link} from 'react-router-dom'
 import './css/containers/app.css';
 import '../node_modules/ol/ol.css';
@@ -52,7 +55,10 @@ const App = (props) =>(
                 </Sider>
 
                 <Content className="content-body">
-                    <MapView />
+                   {/* <MapView />*/}
+                   {/*<ThreeView/>*/}
+                   <THREE/>
+                    <ViewS/>
                 </Content>
             </Layout>
 
