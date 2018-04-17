@@ -3,8 +3,9 @@ import { Layout , Button, Menu ,Icon } from 'antd';
 import SideBar from './components/SiderBar.js';
 import MapView from './containers/MapView.js';
 import ThreeView from './containers/ThreeView';
-import THREE from './components/three/container';
+import Admin from './components/small/HeadUser';
 import ViewS from './containers/Viewswi';
+import RightView from './containers/RightView';
 import {Link} from 'react-router-dom'
 import './css/containers/app.css';
 import '../node_modules/ol/ol.css';
@@ -18,6 +19,7 @@ const App = (props) =>(
         <Layout style={{"height":"100%" }}>
             <Header className="header" >
               <Icon className="logo" type="api" />GIS-TEST-1
+                <Admin/>
             </Header>
 
             <Layout style={{"height":"100%"}} >
@@ -57,7 +59,8 @@ const App = (props) =>(
                 <Content className="content-body">
                    {/* <MapView />*/}
                    {/*<ThreeView/>*/}
-                   <THREE/>
+                   {/*<THREE/>*/}
+                   <RightView/>
                     <ViewS/>
                 </Content>
             </Layout>

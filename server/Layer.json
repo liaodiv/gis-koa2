@@ -19,5 +19,12 @@
     "field":[
       {"database":"name","display":"名称"}
     ]
+  },
+  {
+    "name":"areaLayer",
+    "type":"Polygon",
+    "field":[
+      {"database":"name","display":"名称"}
+    ]
   }
 ]

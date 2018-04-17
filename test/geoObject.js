@@ -83,3 +83,10 @@ window.geojsonObject = {
 		}
 	}]
 };
+
+<br/>
+{(selectLayer === null)?
+	<div>未选中数据</div>:
+	<DataList data={dataList} setView={this.setView} deleteFea={this.deleteFeature} setRow={this.setRow} fieldData={fieldData}/>
+}
+<Model {...modelProps}/>

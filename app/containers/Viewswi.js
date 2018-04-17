@@ -1,18 +1,33 @@
 import React from 'react';
-import {Radio} from 'antd';
+import {Button} from 'antd';
+import {connect} from 'dva';
 import './views.css';
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
+import {DISPLAY_THREE,DISPLAY_MAP} from '../constants/model';
+const ButtonGroup = Button.Group;
 
-const Switch = (rops)=>{
+const Switch = (props)=>{
+	const {dispatch} = props;
+	function onChange(value) {
+		//console.log(`radio checked:${e.target.value}`)
+		dispatch({
+			type:'app/setMap',
+			payload:value
+		})
+
+	}
 	return(
 	<div className="views">
-		<RadioGroup defaultValue="2">
-			<RadioButton value="2">平面图</RadioButton>
-			<RadioButton value="3">三维图</RadioButton>
-		</RadioGroup>
+		<ButtonGroup  defaultValue={DISPLAY_MAP}>
+			<Button onClick={()=>{onChange(DISPLAY_MAP)}} value={DISPLAY_MAP}>平面图</Button>
+			<Button onClick={()=>{onChange(DISPLAY_THREE)}} >三维图</Button>
+		</ButtonGroup>
 	</div>
 	)
 }
+function mapStateToProps(state) {
+	return {
+		app:state.app
+	}
+}
 
-export default  Switch;
+export default  connect()(Switch);

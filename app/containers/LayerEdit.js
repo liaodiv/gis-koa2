@@ -16,8 +16,15 @@ class LayerEdit extends Component{
 		super(props)
 	}
 	componentDidMount() {
-		this.getConfig();
-		console.log('container add')
+		if(this.props.login.user === ""){
+			//跳转到登录
+			console.log('跳转');
+			this.props.dispatch({
+				type:'app/router',
+				payload:'/login'
+			})
+			//routerRedux.push('/login');
+		}
 	}
 
 	componentWillUnmount() {
@@ -51,6 +58,7 @@ class LayerEdit extends Component{
         })
     }
     addFeature = (data) => {
+		//加上当前的layer id
 		this.props.dispatch({
 			type:'app/addFeature',
 			payload:data
@@ -58,7 +66,7 @@ class LayerEdit extends Component{
 	}
 	upFeature = (data) => {
 		const obj = {
-			layername:this.props.app.selectLayer,
+			layername:this.props.app.selectLayer.model,
 			data:data
 		}
 		this.props.dispatch({
@@ -69,7 +77,7 @@ class LayerEdit extends Component{
 
 	deleteFeature = (data) => {
 		const obj = {
-			layername:this.props.app.selectLayer,
+			layername:this.props.app.selectLayer.model,
 			data:data
 		}
 		console.log(obj);
@@ -130,8 +138,9 @@ class LayerEdit extends Component{
 
 	render(){
 		const {layers,config,selectLayer,dataList,modelType,confirmLoading,dblayers,editRow} = this.props.app;
-		const fieldData = dblayers.find((value) => {
-			return value.name === selectLayer
+		const {dispatch} = this.props;
+		const fieldData =  config.find((value) => {
+			return selectLayer && value.name === selectLayer.model;
 		});
         const modelProps = {
             modelType:modelType,
@@ -139,7 +148,11 @@ class LayerEdit extends Component{
             setModel:this.setModel,
 			selectLayer:selectLayer,
 			fieldData:fieldData,
-			add:this.addFeature,
+			add:(data) => {
+            	data.data.tableid = selectLayer.gid;
+            	//console.log('添加几何',data)
+            	this.addFeature(data)
+			},
 			CancelFea:this.CancelFea,
 			editRow:editRow,
 			update:this.upFeature
@@ -147,9 +160,23 @@ class LayerEdit extends Component{
 
 		return(
 			<div>
-			<LayerSelect  getdata={ this.getData } config={layers} title={'开始编辑'}/>
+			<LayerSelect  getdata={ (data) => {
+				const layer = layers.find((value) => {
+					return value.gid === data;
+				})
+				dispatch({                    //设置当前编辑的数据
+					type:'app/selectLayer',
+					payload:layer
+				})
+				dispatch({
+					type:'app/setList',
+					payload:{}
+				})
+				console.log('编辑的地图',layer);
+			} } config={layers} title={'开始编辑'}/>
 				<br/>
 				<ToolBar operate = {this.operate} disable={selectLayer === null} setModel={this.setModel}/>
+				<br/>
 				<br/>
 				{(selectLayer === null)?
 					<div>未选中数据</div>:
@@ -162,7 +189,8 @@ class LayerEdit extends Component{
 }
 function mapStateToProps(state) {
 	return {
-		app:state.app
+		app:state.app,
+		login:state.login
 	}
 }
 

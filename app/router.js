@@ -27,7 +27,7 @@ export default function Routers({history}) {
 		<LocaleProvider locale={zhCN}>
 			<ConnectedRouter history={history}>
 				<Switch>
-					<Route exact path={'/'} component={LoginCom}/>
+					<Route  exact path={'/login'} component={LoginCom}/>
 					<Route  path={'/home'} component={App}/>
 				</Switch>
 			</ConnectedRouter>

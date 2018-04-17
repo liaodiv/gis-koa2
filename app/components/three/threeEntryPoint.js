@@ -22,7 +22,7 @@ export default container => {
 
 	function bindEventListeners() {
 		window.onresize = resizeCanvas;
-		window.onmousemove = mouseMove;
+		//window.onmousemove = mouseMove;
 		resizeCanvas();
 	}
 

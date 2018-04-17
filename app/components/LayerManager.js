@@ -18,7 +18,7 @@ function SelectO(props) {
 				{
 					props.config.map(data => {
 						return (
-							<Option value={data.name} key={data.name}>{data.name}</Option>
+							<Option value={data.gid} key={data.name}>{data.name}</Option>
 						)
 					})
 				}
@@ -51,6 +51,7 @@ class LayerForm extends Component {
 				getdata(values.select);
 			}
 		});
+		this.props.form.resetFields();
 	};
 	handleCurrencyChange = (currency) => {
 		if (!('value' in this.props)) {
@@ -83,6 +84,7 @@ class LayerForm extends Component {
 				<Form.Item>
 					<Button type="primary" htmlType="submit">{title}</Button>
 				</Form.Item>
+				<Form.Item>{this.props.children}</Form.Item>
 
 			</Form>
 		)

@@ -4,24 +4,41 @@ import Operate from '../actions/editTool';
 import {animate,ligter,setLayerColor} from '../actions/mapTool';
 import {featureTotable,sourceToTable} from '../actions/util';
 import {message} from 'antd';
+import {routerRedux} from 'dva/router';
 
 
 /// TODO 完成单个图层的增删改
+/// TODO (1) 二三维图层切换 二三维数据自动显示 三个显示模式 二维/三维同时分屏显示
 export default {
 	namespace:'app',
 	state:{
 		OK:false,
 		layers:[],
-		config:null,
+		config:[],
 		dblayers:[],
 		selectLayer:null,
 		selectColor:null,
 		dataList:[],
         modelType:"",    //当前显示modal种类
 		editRow:null,    //当前编辑的表格数据
-        confirmLoading:false
+        confirmLoading:false,
+		mapType:""
+	},
+	subscriptions:{
+		setup ({dispatch,history}){
+			history.listen(({pathname}) => {
+
+				if(pathname === '/'){
+					console.log('跳转',pathname);
+					dispatch({type:'router',payload:'/login'})
+				}
+			})
+		}
 	},
 	effects:{
+		*router({payload},{call,put}){
+			yield put(routerRedux.push(payload))
+		},
 		*getLayer({payload},{call,put}){
 			const result = yield call(Service.getAll,payload);
 			console.log(result);
@@ -34,11 +51,32 @@ export default {
 			})
 
 		},
+		/*payload layername layerid modelname
+		* */
+		*getLayerId({payload},{call,put}){
+			const result = yield call(Service.getLayerId, payload);
+			console.log('图层数据',result);
+			yield put({
+				type:'addLayer',
+				payload:{
+					data:result.data,
+					name:payload.name,
+					model:result.model,
+					gid:payload.gid
+				}
+			})
+		},
+		//payload 为 当前用户的id
 		*getConfig({payload},{call,put}){
 			const result = yield call(Service.getConfig);
+			const layers = yield call(Service.getLayer,payload);
+			console.log('图层数据',layers);
 			yield put({
 				type:'setConfig',
-				payload:result.data
+				payload: {
+					config:result.data,
+					dblayers:layers.data
+				}
 			})
 		},
 		*addFeature({payload},{call,put}){
@@ -86,6 +124,29 @@ export default {
 				type:'setModel',
 				payload:''
 			})
+		},
+		*newLayer({payload},{call,put}){
+			const result = yield call(Service.addLayer,payload);
+			if(result.code === 1){
+				message.success('添加成功');
+				console.log('添加成功',result)
+				yield put({
+					type:'pushLayer',
+					payload:result.data
+				})
+
+				yield put({
+					type:'upOneTable',
+					payload:payload
+				})
+
+			}else {
+				message.error('更新失败')
+			}
+			yield put({
+				type:'setModel',
+				payload:''
+			})
 		}
 
 	},
@@ -94,17 +155,13 @@ export default {
 		addLayer(state,{payload}){
 			//修改 select只获取name
 			LayerGroup.addLayer(payload.data,payload.name);
-			let config = state.config.filter(value => {
+			let dblayers = state.dblayers.filter(value => {
 				return value.name !== payload.name
 			})
-			return {...state,layers:state.layers.concat([{name:payload.name,data:payload.data,color:'#DEB887'}]),config:config}
+			return {...state,layers:state.layers.concat([{...payload,color:'#DEB887'}]),dblayers:dblayers}
 		},
 		setConfig(state,{payload}){
-			if(state.config === null){
-				return {...state,config:payload,dblayers:payload}
-			}else {
-				return {...state}
-			}
+				return {...state,...payload}
 		},
 		selectLayer(state,{payload}){
 			console.log(payload);
@@ -115,16 +172,16 @@ export default {
 		},
 		startEdit(state,{payload}){
 			Operate.startDraw(
-				LayerGroup.getLayer(state.selectLayer),
-				state.dblayers.find((value) => {
-					return value.name === state.selectLayer
+				LayerGroup.getLayer(state.selectLayer.name),
+				state.config.find((value) => {
+					return value.name === state.selectLayer.model
 					})
 					.type,
 				payload)
 			return {...state}
 		},
 		startSelect(state,{payload}){
-			Operate.startSelect(LayerGroup.getLayer(state.selectLayer))
+			Operate.startSelect(LayerGroup.getLayer(state.selectLayer.name))
 			return {...state}
 		},
 		OperateEnd(state,{payload}){
@@ -136,13 +193,13 @@ export default {
 			/*const geodata = state.layers.find((value)=>{
 				return value.name === state.selectLayer
 			})*/
-			const datalist = sourceToTable(LayerGroup.getSource(state.selectLayer))//featureTotable(geodata.data.features);
+			const datalist = sourceToTable(LayerGroup.getSource(state.selectLayer.name))//featureTotable(geodata.data.features);
 			console.log('datalsit',datalist);
 			return {...state,dataList:datalist}
 		},
         setView(state,{payload}){
 		    //payload 为uid  1getfeature
-            const feature = LayerGroup.getSource(state.selectLayer).getFeatureById(payload);
+            const feature = LayerGroup.getSource(state.selectLayer.name).getFeatureById(payload);
             animate(feature.getGeometry());
             ligter(feature);
             return {...state}
@@ -150,6 +207,9 @@ export default {
         setModel(state,{payload}){
             return {...state,modelType:payload}
         },
+		setMap(state,{payload}){
+			return {...state,mapType:payload}
+		},
 		//payload 为一个geojson队形
 		addOneTable(state,{payload}){ //更新数据到表格
 			let obj = payload.properties;
@@ -206,6 +266,9 @@ export default {
 				}
 			})
 			return{...state,layers:layers}
+		},
+		pushLayer(state,{payload}){
+			return {...state,dblayers:[...state.dblayers,payload]}
 		}
 
 	}

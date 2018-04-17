@@ -11,8 +11,8 @@ export default scene => {
 	const rad = 80;
 
 	function update(time) {
-		const x = rad * Math.sin(time*0.2)
-		lightOut.position.x = x;
+		/*const x = rad * Math.sin(time*0.2)
+		lightOut.position.x = x;*/
 	}
 
 	return {

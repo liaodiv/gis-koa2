@@ -36,6 +36,9 @@ const TestPoint = sequelzie
 		},
 		geom:{
 			type:Sequelize.GEOMETRY
+		},
+		tableid:{
+			type:Sequelize.INTEGER
 		}
 	},{
 		freezeTableName:true,
@@ -54,14 +57,39 @@ const TestLine = sequelzie
 		},
 		geom:{
 			type:Sequelize.GEOMETRY
+		},
+		tableid:{
+			type:Sequelize.INTEGER
 		}
 	},{
 		freezeTableName:true,
 		timestamps:false
 	});
+const TestArea = sequelzie
+	.define('new_area',{
+		gid:{
+			type:Sequelize.INTEGER,
+			primaryKey: true,
+			autoIncrement:true
+		},
+		name:{
+			type:Sequelize.STRING
+		},
+		geom:{
+			type:Sequelize.GEOMETRY
+		},
+		tableid:{
+			type:Sequelize.INTEGER
+		}
+	},{
+		freezeTableName:true,
+		timestamps:false
+	})
 
 export default {
 	pointLayer:TestPoint,
 	communication_line:ComLine,
+	areaLayer:TestArea,
 	lineLayer:TestLine
 }
+

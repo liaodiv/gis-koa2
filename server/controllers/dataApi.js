@@ -44,5 +44,8 @@ export default {
 	async getAllLine(ctx){
 		let geojson = await Line.getAll();
 		ctx.body = {data:geojson,code:1,name:'communication_line'}
+	},
+	async addLayer(ctx){
+
 	}
 }

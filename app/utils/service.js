@@ -38,5 +38,35 @@ export function updateFeature(data) {
 		method:'put',
 		data:data
 	})
+}
+export function login(data) {
+	return request({
+		url:'/login',
+		method:'post',
+		data:data
+	})
+}
 
+export function addLayer(data) {
+	return request({
+		url:'/ulayer',
+		method:'post',
+		data:data
+	})
+}
+
+export function getLayer(id) {
+	return request({
+		url:`/ulayer?id=${id}`,
+		method:'get',
+		data:{}
+	})
+}
+
+export function getLayerId(data) {
+	return request({
+		url:`/udata?layername=${data.modelname}&layerid=${data.gid}`,
+		method:'get',
+		data:{}
+	})
 }

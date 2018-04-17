@@ -11,6 +11,17 @@ export async function getAll(model) {
 	}
 }
 
+export async function getById(model,layerid) {
+	///找到数据模板对应的model用userid确定具体的数据
+	if(model.findAll instanceof Function){
+		let result = await model.findAll({where:{tableid:layerid}});
+		let Arr = result.map( result => {     ///转换为单个feature
+			return Util.Togeojson(result);
+		})
+		return Util.FeaturesToCollection(Arr);
+	}
+}
+
 export async function insertOne(model,data) {
 	if(model.create instanceof Function){
 		let obj = data;

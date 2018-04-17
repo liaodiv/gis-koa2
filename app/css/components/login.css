@@ -49,3 +49,8 @@
 .ant-spin-nested-loading {
     height: 100%;
 }
+
+.head-user {
+    display: flex;
+    padding-right: 16px;
+}

@@ -29,7 +29,7 @@ const Model = (props) => {
 			if(modelType === ADD_GEOMETRY) {
 				values.geom = new GeoJson().writeGeometryObject(window.addFeature.getGeometry());
 				const postData = {
-					layername:selectLayer,
+					layername:selectLayer.model,
 					data:values
 				}
 				add(postData);

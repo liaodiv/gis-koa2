@@ -1,8 +1,12 @@
 import * as THREE from 'three';
 const OrbitControls = require('three-orbit-controls')(THREE);
+import CameraControls from 'camera-controls';
 import SceneSubject from './sceneSubject';
 import GeneralLights from './generalLights';
+import MapSubject from './sceneMap';
+import PipeSubject from './pipeSubject';
 
+//CameraControls.install({THREE:THREE});
 
 
 export default canvas => {
@@ -53,8 +57,8 @@ export default canvas => {
 	function buildCamera({ width, height }) {
 		const aspectRatio = width / height;
 		const fieldOfView = 60;
-		const nearPlane = 4;
-		const farPlane = 100;
+		const nearPlane = 2;
+		const farPlane = 2000;
 		const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
 
 		camera.position.z = 40;
@@ -65,7 +69,9 @@ export default canvas => {
 	function createSceneSubjects(scene) {
 		const sceneSubjects = [
 			new GeneralLights(scene),
-			new SceneSubject(scene)
+			/*new SceneSubject(scene),*/
+			new MapSubject(scene),
+			new PipeSubject(scene)
 		];
 
 		return sceneSubjects;
@@ -73,13 +79,14 @@ export default canvas => {
 
 	function update() {
 		const elapsedTime = clock.getElapsedTime();
+		const delta = clock.getDelta();
+			for (let i = 0; i < sceneSubjects.length; i++)
+				sceneSubjects[i].update(elapsedTime);
 
-		for(let i=0; i<sceneSubjects.length; i++)
-			sceneSubjects[i].update(elapsedTime);
+			//updateCameraPositionRelativeToMouse();
 
-		updateCameraPositionRelativeToMouse();
+			renderer.render(scene, camera);
 
-		renderer.render(scene, camera);
 	}
 
 	function updateCameraPositionRelativeToMouse() {
