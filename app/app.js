@@ -61,7 +61,7 @@ const App = (props) =>(
                    {/*<ThreeView/>*/}
                    {/*<THREE/>*/}
                    <RightView/>
-                    <ViewS/>
+                 {/*   <ViewS/>*/}
                 </Content>
             </Layout>
 

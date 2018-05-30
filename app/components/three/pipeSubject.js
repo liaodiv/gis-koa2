@@ -12,11 +12,9 @@ export default sence => {
 	cube.position.z = 3;
 
 	sence.add(cube);
-
 	function update() {
 
 	}
-
 	return {
 		update
 	}

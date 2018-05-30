@@ -22,7 +22,7 @@ export default {
         modelType:"",    //当前显示modal种类
 		editRow:null,    //当前编辑的表格数据
         confirmLoading:false,
-		mapType:""
+		mapType:"二维图"
 	},
 	subscriptions:{
 		setup ({dispatch,history}){
